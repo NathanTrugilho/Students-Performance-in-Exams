@@ -1,0 +1,19 @@
+Target: G3
+
+Attributes: 
+    Pearson (Depois treinar sem G2 e G1)
+        G2 
+        G1
+        Failures
+        Studytime
+        MotherEduc
+        FatherEduc
+    
+    MI
+        (binárias)
+            Higher
+            Internet
+            Romantic
+
+        (categóricas)
+            Reason (usar sem G2 e G1)
