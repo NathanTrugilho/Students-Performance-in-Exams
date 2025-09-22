@@ -25,9 +25,9 @@ var_ind = dados_planilha[:, :-1]    # Contém somente X
 # Definindo meu modelo ===================
 modelo = PySRRegressor(
     model_selection="best",
-    niterations=1,  # Botei um número bem alto para a condição de parada ser dada apenas pelo tempo
+    niterations=1,  # 1 para ficar fiel ao numero de iterações
     populations=1, # Default = 15
-    population_size=100, # Default = 33
+    population_size=200, # Default = 33
     maxsize=30, # Limita a complexidade máxima das equações (Default = 20)
     #ncycles_per_iteration=1100,
     binary_operators=["+", "*", "-", "/", "^"], # Defino os operadores binários que vou usar (já tem os mais importantes)
@@ -51,17 +51,19 @@ modelo = PySRRegressor(
     annealing=True,
     progress=False, # Desativo a barra de progresso (Eu acho feio ¯\_(ツ)_/¯)
     verbosity=1, # Defina como 1 para mostrar todas as equações na hora do treinamento
-    run_id="resultados", # Caminho para onde vai o modelo treinado
+    run_id="result_mse_evo", # Caminho para onde vai o modelo treinado
 )
 modelo.tournament_selection_n = int(modelo.population_size*0.303) # Default = 15 /tamanho do torneio
 modelo.topn = int(modelo.population_size*0.303) # Default = 12 / elitismo
 
 iteracoes = modelo.niterations
 
+#modelo.fit(X=var_independentes, y=var_dependentes) pra testar
+
 for i in range(1,7):
-    modelo.fit(X=var_independentes, y=var_dependentes)#, variable_names=nome_var_independentes)
+    modelo.fit(X=var_independentes, y=var_dependentes)
     
-    with open("mse_evolution/dados.txt", "a") as f:
+    with open("symbolic_regression/mse_evolution/dados.txt", "a") as f:
         f.write(f"{iteracoes},{mean_squared_error(var_dep, modelo.predict(var_ind))}\n")
     modelo.niterations = 10**i - iteracoes
     iteracoes = 10**i
